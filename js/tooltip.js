@@ -5,7 +5,7 @@ $(function () {
 //---------------------------- initialization
 
 	var TIP_SPEED = 300;
-	var TIP_V_OFFSET = 3;
+	var TIP_V_OFFSET = 0;
 
 	var arrVerOffsets = [];
 
@@ -31,20 +31,26 @@ $(function () {
 
 // ------------------------- events
 
-	$( "form input" ).on( 'mouseover', showTip );
-	$( "form input" ).on( 'mouseout', function () {  $( '.tooltip' ).hide(TIP_SPEED);	} );
+	$( "form input" ).on( 'mouseover focus', showTip );
+	$( "form input" ).on( 'mouseout', hideTipsAll );
 	$( "button" ).on('click', showTipsAll);
 
 // --------------------------- handlers
 
-	function showTip() {								// mouse over
+	function hideTipsAll () {
+		$( '.tooltip' ).hide(TIP_SPEED);
+	}
+
+	function showTip() {								// show 1 tip
+		hideTipsAll();
+
 		var position = $('form input').index(this);
 		$( '.tooltip' )
 			.filter( function(index) { return index === position; } )
 			.show(TIP_SPEED);
 	}
 	
-	function showTipsAll(e) {							// Key Press
+	function showTipsAll(e) {							// show all tips (button)
 		$( ".tooltip" ).show(TIP_SPEED);
 		e.preventDefault();
 	}
